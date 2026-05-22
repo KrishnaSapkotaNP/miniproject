@@ -273,8 +273,6 @@
   color: var(--primary-dark);
   transform: scale(1.05);
 }
-  color: var(--primary-dark);
-}
 
 .file-item {
   color: var(--gray-700);

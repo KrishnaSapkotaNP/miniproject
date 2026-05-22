@@ -40,14 +40,14 @@ export const api = {
     return res.json();
   },
 
-  uploadProject: async (title, github_link, description, tech_stack, price) => {
+  uploadProject: async (title, github_link, demo_link, description, tech_stack, price) => {
     const res = await fetch(`${API_BASE}/projects`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify({ title, github_link, description, tech_stack, price }),
+      body: JSON.stringify({ title, github_link, demo_link, description, tech_stack, price }),
     });
     return res.json();
   },
@@ -67,14 +67,14 @@ export const api = {
     return res.json();
   },
 
-  updateProject: async (id, title, description, price, tech_stack) => {
+  updateProject: async (id, title, description, price, tech_stack, demo_link) => {
     const res = await fetch(`${API_BASE}/projects/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify({ title, description, price, tech_stack }),
+      body: JSON.stringify({ title, description, price, tech_stack, demo_link }),
     });
     return res.json();
   },

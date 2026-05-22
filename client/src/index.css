@@ -133,3 +133,17 @@ input::placeholder {
     padding: 20px 16px;
   }
 }
+
+
+/* Enhanced UI polish */
+.page-container {
+  backdrop-filter: blur(2px);
+}
+
+.card-glass,
+.form-wrapper,
+.admin-section,
+.project-details {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+}

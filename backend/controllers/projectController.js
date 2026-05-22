@@ -29,7 +29,7 @@ const getGithubStructure = async (owner, repo) => {
 
 export const uploadProject = async (req, res) => {
   try {
-    const { title, github_link, description, tech_stack, price } = req.body;
+    const { title, github_link, demo_link, description, tech_stack, price } = req.body;
 
     if (!title || !github_link || !description || !tech_stack || !price) {
       return res.status(400).json({ error: 'All fields required' });
@@ -43,7 +43,7 @@ export const uploadProject = async (req, res) => {
 
     const structure = await getGithubStructure(urlMatch[1], urlMatch[2]);
 
-    const project = await projectModel.createProject(title, github_link, description, tech_stack, price, req.user.id);
+    const project = await projectModel.createProject(title, github_link, demo_link, description, tech_stack, price, req.user.id);
     
     res.status(201).json({ 
       message: 'Project uploaded successfully', 
@@ -127,9 +127,9 @@ export const deleteProject = async (req, res) => {
 export const updateProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, price, tech_stack } = req.body;
+    const { title, description, price, tech_stack, demo_link } = req.body;
 
-    const updated = await projectModel.updateProject(id, title, description, price, tech_stack);
+    const updated = await projectModel.updateProject(id, title, description, price, tech_stack, demo_link);
     res.json({ message: 'Project updated successfully', project: updated });
   } catch (err) {
     console.error('Update error:', err);

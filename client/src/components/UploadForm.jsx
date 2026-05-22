@@ -7,6 +7,7 @@ export default function UploadForm({ onSubmit, loading }) {
     github_link: '',
     description: '',
     tech_stack: '',
+    demo_link: '',
     price: '',
   });
   const [error, setError] = useState('');
@@ -51,6 +52,18 @@ export default function UploadForm({ onSubmit, loading }) {
           value={formData.github_link}
           onChange={handleChange}
           placeholder="https://github.com/username/repo"
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="demo_link">Demo Link</label>
+        <input
+          id="demo_link"
+          type="url"
+          name="demo_link"
+          value={formData.demo_link}
+          onChange={handleChange}
+          placeholder="https://your-demo-url.com"
         />
       </div>
 
