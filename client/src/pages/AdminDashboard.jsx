@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Settings, Check, X, Users, ClipboardList } from 'lucide-react';
 import { api } from '../services/api';
 import '../styles/dashboard.css';
 
@@ -66,7 +67,10 @@ export default function AdminDashboard() {
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1>⚙️ Admin Dashboard</h1>
+        <h1>
+          <Settings size={32} style={{ color: 'var(--primary-color)' }} />
+          Admin Dashboard
+        </h1>
       </div>
 
       {message && <div className="info-message">{message}</div>}
@@ -75,13 +79,17 @@ export default function AdminDashboard() {
         <button
           className={`tab-button ${activeTab === 'requests' ? 'active' : ''}`}
           onClick={() => setActiveTab('requests')}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
         >
+          <ClipboardList size={16} />
           Creator Requests ({requests.length})
         </button>
         <button
           className={`tab-button ${activeTab === 'users' ? 'active' : ''}`}
           onClick={() => setActiveTab('users')}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
         >
+          <Users size={16} />
           Users ({users.length})
         </button>
       </div>
@@ -102,8 +110,14 @@ export default function AdminDashboard() {
                     <p><strong>Message:</strong> {req.message}</p>
                   </div>
                   <div className="request-actions">
-                    <button onClick={() => handleApprove(req.id)} className="btn-approve">✓ Approve</button>
-                    <button onClick={() => handleReject(req.id)} className="btn-reject">✗ Reject</button>
+                    <button onClick={() => handleApprove(req.id)} className="btn-approve">
+                      <Check size={14} />
+                      Approve
+                    </button>
+                    <button onClick={() => handleReject(req.id)} className="btn-reject">
+                      <X size={14} />
+                      Reject
+                    </button>
                   </div>
                 </div>
               ))}

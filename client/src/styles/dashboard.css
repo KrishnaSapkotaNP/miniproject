@@ -11,6 +11,9 @@
   font-size: 32px;
   color: var(--gray-900);
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .page-header p {
@@ -27,18 +30,25 @@
 }
 
 .stat-card {
-  background-color: white;
+  background-color: var(--bg-card);
   border: 1px solid var(--gray-200);
   border-radius: var(--border-radius);
   padding: 20px;
   text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
 }
 
 .stat-card h3 {
   font-size: 14px;
   color: var(--gray-700);
   margin: 0 0 8px 0;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -79,10 +89,11 @@
 }
 
 .admin-section {
-  background-color: white;
+  background-color: var(--bg-card);
   border: 1px solid var(--gray-200);
   border-radius: var(--border-radius);
   padding: 24px;
+  box-shadow: var(--shadow-sm);
 }
 
 .admin-section h2 {
@@ -100,7 +111,7 @@
 
 .request-card,
 .user-card {
-  background-color: #f9fafb;
+  background-color: var(--gray-100);
   border: 1px solid var(--gray-200);
   border-radius: var(--border-radius);
   padding: 16px;
@@ -108,6 +119,13 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+  transition: var(--transition);
+}
+
+.request-card:hover,
+.user-card:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--primary-light);
 }
 
 .request-info,
@@ -150,10 +168,14 @@
   border: none;
   cursor: pointer;
   transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .btn-approve:hover {
   background-color: #059669;
+  transform: translateY(-2px);
 }
 
 .btn-reject {
@@ -166,10 +188,14 @@
   border: none;
   cursor: pointer;
   transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .btn-reject:hover {
   background-color: #dc2626;
+  transform: translateY(-2px);
 }
 
 .role-badge {
@@ -182,26 +208,27 @@
 }
 
 .role-viewer {
-  background-color: #e0e7ff;
-  color: #3730a3;
+  background-color: rgba(99, 102, 241, 0.15);
+  color: var(--primary-light);
 }
 
 .role-creator {
-  background-color: #dbeafe;
-  color: #1e40af;
+  background-color: rgba(16, 185, 129, 0.15);
+  color: var(--success-color);
 }
 
 .role-admin {
-  background-color: #fecaca;
-  color: #dc2626;
+  background-color: rgba(239, 68, 68, 0.15);
+  color: var(--danger-color);
 }
 
 /* Project Details */
 .project-details {
-  background-color: white;
+  background-color: var(--bg-card);
   border: 1px solid var(--gray-200);
   border-radius: var(--border-radius);
   padding: 30px;
+  box-shadow: var(--shadow-md);
 }
 
 .btn-back {
@@ -214,10 +241,14 @@
   border-radius: var(--border-radius);
   cursor: pointer;
   transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .btn-back:hover {
   background-color: var(--gray-300);
+  transform: translateX(-4px);
 }
 
 .details-header {
@@ -248,7 +279,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
-  background-color: #f9fafb;
+  background-color: var(--gray-100);
   padding: 16px;
   border-radius: var(--border-radius);
   margin-bottom: 24px;
@@ -288,11 +319,12 @@
 }
 
 .message-box {
-  background-color: white;
+  background-color: var(--bg-card);
   border: 1px solid var(--gray-200);
   border-radius: var(--border-radius);
   padding: 40px;
   text-align: center;
+  box-shadow: var(--shadow-md);
 }
 
 .message-box h2 {

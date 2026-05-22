@@ -1,13 +1,13 @@
 /* Navbar */
 .navbar {
-  background: linear-gradient(135deg, white 0%, #fafbff 100%);
+  background: var(--bg-card);
   border-bottom: 1px solid var(--gray-200);
   box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
   z-index: 100;
   backdrop-filter: blur(10px);
-  background-attachment: fixed;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .navbar-container {
@@ -39,7 +39,7 @@
 }
 
 .logo-icon {
-  font-size: 28px;
+  color: var(--primary-color);
   animation: pulse 2s infinite;
 }
 
@@ -55,7 +55,7 @@
 .navbar-menu {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 24px;
 }
 
 .nav-link {
@@ -64,10 +64,14 @@
   transition: var(--transition);
   position: relative;
   font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .nav-link:hover {
   color: var(--primary-color);
+  text-decoration: none;
 }
 
 .nav-link::after {
@@ -89,7 +93,7 @@
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
   color: white;
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
@@ -102,6 +106,25 @@
 
 .nav-link.btn-primary::after {
   display: none;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--gray-700);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--gray-100);
+  color: var(--primary-color);
 }
 
 .user-menu {
@@ -135,6 +158,9 @@
   font-weight: 500;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .logout-btn:hover {
@@ -151,7 +177,7 @@
 
 @media (max-width: 768px) {
   .navbar-menu {
-    gap: 16px;
+    gap: 12px;
     font-size: 13px;
   }
 
