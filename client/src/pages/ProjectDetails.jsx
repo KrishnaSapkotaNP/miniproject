@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, ArrowUp, ThumbsUp, CreditCard, ExternalLink } from 'lucide-react';
 import { api } from '../services/api';
 import FolderTree from '../components/FolderTree';
 import '../styles/dashboard.css';
@@ -46,12 +47,18 @@ export default function ProjectDetails() {
 
   return (
     <div className="page-container">
-      <button onClick={() => navigate('/')} className="btn-back">← Back to Projects</button>
+      <button onClick={() => navigate('/')} className="btn-back">
+        <ArrowLeft size={16} />
+        Back to Projects
+      </button>
 
       <div className="project-details">
         <div className="details-header">
           <h1>{project.title}</h1>
-          <span className="upvote-badge">⬆️ {upvotes} upvotes</span>
+          <span className="upvote-badge">
+            <ArrowUp size={14} style={{ marginRight: '2px' }} />
+            {upvotes} upvotes
+          </span>
         </div>
 
         <p className="details-description">{project.description}</p>
@@ -65,15 +72,22 @@ export default function ProjectDetails() {
           </div>
           <div className="meta-item">
             <strong>GitHub:</strong>
-            <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="github-link">
+            <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="github-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
               View Repository
+              <ExternalLink size={14} />
             </a>
           </div>
         </div>
 
         <div className="details-actions">
-          <button onClick={handleUpvote} className="btn-upvote">👍 Upvote ({upvotes})</button>
-          <button className="btn-buy">💳 Buy Now</button>
+          <button onClick={handleUpvote} className="btn-upvote">
+            <ThumbsUp size={16} />
+            Upvote ({upvotes})
+          </button>
+          <button className="btn-buy">
+            <CreditCard size={16} />
+            Buy Now
+          </button>
         </div>
 
         {project.structure && (

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThumbsUp, CreditCard, ExternalLink, ArrowUp } from 'lucide-react';
 import '../styles/cards.css';
 
 export default function ProjectCard({ project, onUpvote, showActions }) {
@@ -18,7 +19,10 @@ export default function ProjectCard({ project, onUpvote, showActions }) {
     <div className="project-card">
       <div className="card-header">
         <h3 className="card-title">{title}</h3>
-        <span className="upvote-badge">⬆️ {upvotes}</span>
+        <span className="upvote-badge">
+          <ArrowUp size={14} style={{ marginRight: '2px' }} />
+          {upvotes}
+        </span>
       </div>
 
       <p className="card-description">{description}</p>
@@ -34,16 +38,21 @@ export default function ProjectCard({ project, onUpvote, showActions }) {
 
       <div className="card-link">
         <a href={github_link} target="_blank" rel="noopener noreferrer" className="github-link">
-          View on GitHub →
+          View on GitHub
+          <ExternalLink size={14} />
         </a>
       </div>
 
       {showActions && (
         <div className="card-actions">
           <button onClick={(e) => onUpvote(project.id, e)} className="btn-upvote">
-            👍 Upvote
+            <ThumbsUp size={16} />
+            Upvote
           </button>
-          <button className="btn-buy">💳 Buy</button>
+          <button className="btn-buy">
+            <CreditCard size={16} />
+            Buy
+          </button>
         </div>
       )}
     </div>

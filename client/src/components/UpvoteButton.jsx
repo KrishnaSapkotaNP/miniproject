@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThumbsUp } from 'lucide-react';
 import '../styles/cards.css';
 
 export default function UpvoteButton({ projectId, upvotes, onUpvote, disabled }) {
@@ -8,7 +9,8 @@ export default function UpvoteButton({ projectId, upvotes, onUpvote, disabled })
       className="btn-upvote"
       disabled={disabled}
     >
-      👍 Upvote ({upvotes})
+      <ThumbsUp size={16} />
+      Upvote ({upvotes})
     </button>
   );
 }

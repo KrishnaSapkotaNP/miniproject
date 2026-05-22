@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Store, AlertCircle } from 'lucide-react';
 import { api } from '../services/api';
 import ProjectCard from '../components/ProjectCard';
 import '../styles/dashboard.css';
@@ -44,11 +45,19 @@ export default function Home() {
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1>🏪 Project Marketplace</h1>
+        <h1>
+          <Store size={32} style={{ color: 'var(--primary-color)' }} />
+          Project Marketplace
+        </h1>
         <p>Browse and buy amazing software projects</p>
       </div>
 
-      {message && <div className="info-message">{message}</div>}
+      {message && (
+        <div className="info-message">
+          <AlertCircle size={18} />
+          {message}
+        </div>
+      )}
 
       <div className="projects-grid">
         {projects.length === 0 ? (
