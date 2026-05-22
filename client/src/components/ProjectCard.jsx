@@ -1,7 +1,8 @@
 import React from 'react';
 import '../styles/cards.css';
+import { hasPurchasedProject, purchaseProject } from '../utils/purchases';
 
-export default function ProjectCard({ project, onUpvote, showActions }) {
+export default function ProjectCard({ project, onUpvote, onBuy, showActions }) {
   if (!project) {
     return <div className="project-card">Project data not available</div>;
   }
@@ -12,7 +13,15 @@ export default function ProjectCard({ project, onUpvote, showActions }) {
   const priceNum = parseFloat(project.price);
   const price = isNaN(priceNum) ? 0 : priceNum;
   const upvotes = project.upvotes || 0;
-  const github_link = project.github_link || '#';
+  const demo_link = project.demo_link || '#';
+  const purchased = hasPurchasedProject(project.id);
+
+  const handleBuy = () => {
+    purchaseProject(project.id);
+    if (onBuy) {
+      onBuy(project.id);
+    }
+  };
 
   return (
     <div className="project-card">
@@ -33,9 +42,16 @@ export default function ProjectCard({ project, onUpvote, showActions }) {
       </div>
 
       <div className="card-link">
-        <a href={github_link} target="_blank" rel="noopener noreferrer" className="github-link">
-          View on GitHub →
-        </a>
+        {demo_link !== '#' && (
+          <a href={demo_link} target="_blank" rel="noopener noreferrer" className="github-link">
+            Live Demo →
+          </a>
+        )}
+        {purchased ? (
+          <div className="locked-link unlocked">Repository unlocked</div>
+        ) : (
+          <div className="locked-link">Repo locked until purchase</div>
+        )}
       </div>
 
       {showActions && (
@@ -43,7 +59,9 @@ export default function ProjectCard({ project, onUpvote, showActions }) {
           <button onClick={(e) => onUpvote(project.id, e)} className="btn-upvote">
             👍 Upvote
           </button>
-          <button className="btn-buy">💳 Buy</button>
+          <button onClick={handleBuy} className="btn-buy">
+            {purchased ? 'Unlocked' : '💳 Buy to Unlock'}
+          </button>
         </div>
       )}
     </div>

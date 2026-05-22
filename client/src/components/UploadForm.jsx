@@ -5,6 +5,7 @@ export default function UploadForm({ onSubmit, loading }) {
   const [formData, setFormData] = useState({
     title: '',
     github_link: '',
+    demo_link: '',
     description: '',
     tech_stack: '',
     price: '',
@@ -19,8 +20,8 @@ export default function UploadForm({ onSubmit, loading }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.github_link || !formData.description || !formData.tech_stack || !formData.price) {
-      setError('All fields are required');
+    if (!formData.title || !formData.github_link || !formData.demo_link || !formData.description || !formData.tech_stack || !formData.price) {
+      setError('All fields are required, including a demo or Vercel link');
       return;
     }
     await onSubmit(formData);
@@ -51,6 +52,18 @@ export default function UploadForm({ onSubmit, loading }) {
           value={formData.github_link}
           onChange={handleChange}
           placeholder="https://github.com/username/repo"
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="demo_link">Demo / Vercel Link *</label>
+        <input
+          id="demo_link"
+          type="url"
+          name="demo_link"
+          value={formData.demo_link}
+          onChange={handleChange}
+          placeholder="https://your-project.vercel.app"
         />
       </div>
 

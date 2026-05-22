@@ -33,6 +33,7 @@ export default function Upload() {
       const result = await api.uploadProject(
         formData.title,
         formData.github_link,
+        formData.demo_link,
         formData.description,
         formData.tech_stack,
         parseFloat(formData.price)

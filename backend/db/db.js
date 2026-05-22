@@ -1,19 +1,23 @@
-import pkg from 'pg';
-const { Pool } = pkg;
 import dotenv from 'dotenv';
-
 dotenv.config();
+import postgres from 'postgres';
+const connectionString = process.env.DATABASE_URL;
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-});
+const sql = connectionString
+  ? postgres(connectionString, { ssl: 'require' })
+  : postgres({
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+    });
 
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err);
-});
+const pool = {
+  query: async (text, params) => {
+    const rows = await sql.unsafe(text, params);
+    return { rows };
+  },
+};
 
 export default pool;

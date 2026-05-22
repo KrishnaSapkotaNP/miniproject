@@ -1,9 +1,9 @@
 import pool from '../db/db.js';
 
-export const createProject = async (title, github_link, description, tech_stack, price, creator_id) => {
+export const createProject = async (title, github_link, demo_link, description, tech_stack, price, creator_id) => {
   const result = await pool.query(
-    'INSERT INTO projects (title, github_link, description, tech_stack, price, creator_id, upvotes) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-    [title, github_link, description, tech_stack, price, creator_id, 0]
+    'INSERT INTO projects (title, github_link, demo_link, description, tech_stack, price, creator_id, upvotes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+    [title, github_link, demo_link, description, tech_stack, price, creator_id, 0]
   );
   return result.rows[0];
 };

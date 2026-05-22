@@ -7,6 +7,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('requests');
   const [requests, setRequests] = useState([]);
   const [users, setUsers] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -30,8 +31,10 @@ export default function AdminDashboard() {
     try {
       const requestsData = await api.getPendingRequests();
       const usersData = await api.getAllUsers();
-      setRequests(requestsData);
-      setUsers(usersData);
+      const projectsData = await api.getAllProjects();
+      setRequests(Array.isArray(requestsData) ? requestsData : []);
+      setUsers(Array.isArray(usersData) ? usersData : []);
+      setProjects(Array.isArray(projectsData) ? projectsData : []);
     } catch (err) {
       setMessage('Failed to load admin data');
     } finally {
@@ -61,6 +64,20 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDeleteProject = async (id) => {
+    if (!confirm('Delete this project? This cannot be undone.')) {
+      return;
+    }
+
+    try {
+      await api.deleteProject(id);
+      setProjects(prevProjects => prevProjects.filter(project => project.id !== id));
+      setMessage('✓ Project deleted');
+    } catch (err) {
+      setMessage('Failed to delete project');
+    }
+  };
+
   if (loading && requests.length === 0) return <div className="page-container"><p>Loading...</p></div>;
 
   return (
@@ -83,6 +100,12 @@ export default function AdminDashboard() {
           onClick={() => setActiveTab('users')}
         >
           Users ({users.length})
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'projects' ? 'active' : ''}`}
+          onClick={() => setActiveTab('projects')}
+        >
+          Projects ({projects.length})
         </button>
       </div>
 
@@ -126,6 +149,36 @@ export default function AdminDashboard() {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {activeTab === 'projects' && (
+        <div className="admin-section">
+          <h2>All Projects</h2>
+          {projects.length === 0 ? (
+            <p>No projects available</p>
+          ) : (
+            <div className="users-table">
+              {projects.map(project => (
+                <div key={project.id} className="user-card">
+                  <div className="user-info">
+                    <h4>{project.title}</h4>
+                    <p><strong>Creator ID:</strong> {project.creator_id}</p>
+                    <p><strong>Price:</strong> ${Number(project.price || 0).toFixed(2)}</p>
+                  </div>
+                  <div className="card-actions">
+                    <button
+                      type="button"
+                      className="btn-delete"
+                      onClick={() => handleDeleteProject(project.id)}
+                    >
+                      🗑️ Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

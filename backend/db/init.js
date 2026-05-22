@@ -19,6 +19,7 @@ const initializeDB = async () => {
         id SERIAL PRIMARY KEY,
         title VARCHAR(200) NOT NULL,
         github_link VARCHAR(500) NOT NULL,
+        demo_link VARCHAR(500) NOT NULL,
         description TEXT,
         tech_stack VARCHAR(500),
         price DECIMAL(10, 2),
@@ -27,6 +28,8 @@ const initializeDB = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    await pool.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS demo_link VARCHAR(500)`);
 
     
     await pool.query(`

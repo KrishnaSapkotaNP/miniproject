@@ -1,8 +1,8 @@
 /* Project Cards */
 .project-card {
-  background: white;
-  border: 1px solid var(--gray-200);
-  border-radius: 12px;
+  background: var(--glass);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: var(--border-radius-lg);
   padding: 24px;
   transition: var(--transition);
   cursor: pointer;
@@ -12,6 +12,8 @@
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .project-card::before {
@@ -20,15 +22,15 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
 
 .project-card:hover {
   box-shadow: var(--shadow-lg);
-  border-color: var(--primary-light);
+  border-color: rgba(14, 165, 165, 0.35);
   transform: translateY(-8px);
 }
 
@@ -45,8 +47,9 @@
 }
 
 .card-title {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
+  font-family: var(--font-display);
   color: var(--gray-900);
   margin: 0;
   flex: 1;
@@ -54,14 +57,14 @@
 }
 
 .upvote-badge {
-  background: linear-gradient(135deg, var(--success-color) 0%, var(--success-light) 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
   color: white;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 8px 16px rgba(14, 165, 165, 0.2);
 }
 
 .card-description {
@@ -77,9 +80,9 @@
 }
 
 .card-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 16px;
   margin: 16px 0;
   padding-top: 16px;
   border-top: 1px solid var(--gray-200);
@@ -96,10 +99,11 @@
   color: var(--gray-900);
   display: block;
   margin-bottom: 2px;
+  letter-spacing: 0.01em;
 }
 
 .price {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -109,11 +113,14 @@
 
 .card-link {
   margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .github-link {
   color: var(--primary-color);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 13px;
   display: inline-flex;
   align-items: center;
@@ -125,6 +132,46 @@
   color: var(--primary-dark);
   text-decoration: none;
   transform: translateX(4px);
+}
+
+.locked-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.12);
+  width: fit-content;
+}
+
+.locked-link.unlocked {
+  color: #0f766e;
+  background: rgba(14, 165, 165, 0.14);
+}
+
+.repository-panel {
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow-sm);
+}
+
+.repository-panel h3 {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: var(--gray-900);
+}
+
+.github-repo-link {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.github-repo-link:hover {
+  color: var(--primary-dark);
+  text-decoration: none;
 }
 
 .card-actions {
@@ -139,32 +186,32 @@
   padding: 12px 12px;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 999px;
   transition: var(--transition);
   border: none;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.1);
 }
 
 .btn-upvote {
-  background: linear-gradient(135deg, var(--success-color) 0%, #34d399 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
   color: white;
 }
 
 .btn-upvote:hover:not(:disabled) {
-  background: linear-gradient(135deg, #059669 0%, var(--success-color) 100%);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+  box-shadow: 0 14px 24px rgba(14, 165, 165, 0.25);
   transform: translateY(-2px);
 }
 
 .btn-buy {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
   color: white;
 }
 
 .btn-buy:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, #ea580c 0%, var(--primary-color) 100%);
+  box-shadow: 0 14px 24px rgba(249, 115, 22, 0.28);
   transform: translateY(-2px);
 }
 
@@ -173,13 +220,13 @@
   background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%);
   color: white;
   font-size: 13px;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+  border-radius: 999px;
+  box-shadow: 0 10px 18px rgba(239, 68, 68, 0.15);
 }
 
 .btn-delete:hover {
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+  box-shadow: 0 14px 22px rgba(239, 68, 68, 0.25);
   transform: translateY(-2px);
 }
 
@@ -222,9 +269,9 @@
 
 /* Folder Tree */
 .folder-tree {
-  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-  border: 1px solid var(--gray-300);
-  border-radius: 12px;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.85));
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: var(--border-radius);
   padding: 20px;
   margin-top: 30px;
   max-height: 400px;
@@ -247,6 +294,85 @@
   padding: 0;
 }
 
+:root[data-theme='dark'] .project-card {
+  background: var(--glass);
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+:root[data-theme='dark'] .project-card:hover {
+  border-color: rgba(94, 234, 212, 0.4);
+}
+
+:root[data-theme='dark'] .card-title {
+  color: var(--gray-900);
+}
+
+:root[data-theme='dark'] .card-description {
+  color: var(--gray-700);
+}
+
+:root[data-theme='dark'] .card-meta {
+  border-top-color: var(--gray-300);
+}
+
+:root[data-theme='dark'] .tech-stack,
+:root[data-theme='dark'] .price {
+  color: var(--gray-700);
+}
+
+:root[data-theme='dark'] .tech-stack strong,
+:root[data-theme='dark'] .price strong {
+  color: var(--gray-900);
+}
+
+:root[data-theme='dark'] .github-link {
+  color: var(--primary-color);
+}
+
+:root[data-theme='dark'] .github-link:hover {
+  color: var(--primary-dark);
+}
+
+:root[data-theme='dark'] .locked-link {
+  background: rgba(148, 163, 184, 0.16);
+  color: var(--gray-500);
+}
+
+:root[data-theme='dark'] .locked-link.unlocked {
+  background: rgba(94, 234, 212, 0.15);
+  color: #5eead4;
+}
+
+:root[data-theme='dark'] .repository-panel {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+:root[data-theme='dark'] .repository-panel h3 {
+  color: var(--gray-900);
+}
+
+:root[data-theme='dark'] .github-repo-link {
+  color: var(--primary-color);
+}
+
+:root[data-theme='dark'] .github-repo-link:hover {
+  color: var(--primary-dark);
+}
+
+:root[data-theme='dark'] .no-projects {
+  color: var(--gray-500);
+}
+
+:root[data-theme='dark'] .folder-tree {
+  background: linear-gradient(150deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.85));
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+:root[data-theme='dark'] .folder-tree h4 {
+  color: var(--gray-900);
+}
+
 .folder-item {
   margin: 6px 0;
   font-size: 13px;
@@ -256,7 +382,7 @@
 }
 
 .folder-item:hover {
-  background-color: rgba(99, 102, 241, 0.1);
+  background-color: rgba(14, 165, 165, 0.12);
 }
 
 .folder-toggle {
@@ -272,8 +398,6 @@
 .folder-toggle:hover {
   color: var(--primary-dark);
   transform: scale(1.05);
-}
-  color: var(--primary-dark);
 }
 
 .file-item {

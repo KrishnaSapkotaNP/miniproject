@@ -1,37 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
+import { ThemeContext } from '../contexts/ThemeContext';
 import '../styles/navbar.css';
 
 export default function Navbar() {
-  const [user, setUser] = useState(null);
+  const { user, logout } = useContext(AuthContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, [location]);
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const savedUser = localStorage.getItem('user');
-      if (savedUser) {
-        setUser(JSON.parse(savedUser));
-      } else {
-        setUser(null);
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setUser(null);
+    logout();
     navigate('/');
   };
 
@@ -45,6 +24,10 @@ export default function Navbar() {
 
         <div className="navbar-menu">
           <Link to="/" className="nav-link">Browse</Link>
+
+          <button type="button" className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+            {theme === 'dark' ? '☀ Light' : '☾ Dark'}
+          </button>
 
           {user && user.role === 'creator' && (
             <Link to="/upload" className="nav-link">Upload</Link>
