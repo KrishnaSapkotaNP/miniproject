@@ -85,7 +85,14 @@ export default function ProjectDetails() {
               View Repository
               <ExternalLink size={14} />
             </a>
+          </div> <div className="meta-item">
+            <strong>Live Demo:</strong>
+            <a href={project.demo_link} target="_blank" rel="noopener noreferrer" className="github-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
+              View Live Demo
+              <ExternalLink size={14} />
+            </a>
           </div>
+
         </div>
 
         <div className="details-actions">
