@@ -10,6 +10,7 @@ export default function ProjectDetails() {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [buy, setBuy] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -85,13 +86,28 @@ export default function ProjectDetails() {
               View Repository
               <ExternalLink size={14} />
             </a>
-          </div> <div className="meta-item">
-            <strong>Live Demo:</strong>
-            <a href={project.demo_link} target="_blank" rel="noopener noreferrer" className="github-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
-              View Live Demo
-              <ExternalLink size={14} />
-            </a>
-          </div>
+          </div> 
+          <div className="meta-item">
+  <strong>Live Demo:</strong>
+
+  <a
+    href={setBuy ? project.demo_link : "#"}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="github-link"
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '4px',
+      marginTop: '4px',
+      pointerEvents: setBuy ? 'auto' : 'none',
+      opacity: setBuy ? 1 : 0.5
+    }}
+  >
+    View Live Demo
+    <ExternalLink size={14} />
+  </a>
+</div>
 
         </div>
 
@@ -100,10 +116,10 @@ export default function ProjectDetails() {
             <ThumbsUp size={16} />
             Upvote ({upvotes})
           </button>
-          <button className="btn-buy">
+          <button className="btn-buy" onClick={() => setBuy(true)}>
             <CreditCard size={16} />
             Buy Now
-          </button>
+          </button >
         </div>
 
         {project.structure && (
