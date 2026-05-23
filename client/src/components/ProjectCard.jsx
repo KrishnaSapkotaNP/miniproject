@@ -2,6 +2,17 @@ import React from 'react';
 import { ThumbsUp, CreditCard, ExternalLink, ArrowUp } from 'lucide-react';
 import '../styles/cards.css';
 
+const getPurchasedProjectIds = (userId) => {
+  if (!userId) return [];
+
+  try {
+    const stored = JSON.parse(localStorage.getItem(`purchasedProjects:${userId}`) || '[]');
+    return Array.isArray(stored) ? stored.map(String) : [];
+  } catch {
+    return [];
+  }
+};
+
 export default function ProjectCard({ project, onUpvote, showActions }) {
   if (!project) {
     return <div className="project-card">Project data not available</div>;
@@ -14,6 +25,17 @@ export default function ProjectCard({ project, onUpvote, showActions }) {
   const price = isNaN(priceNum) ? 0 : priceNum;
   const upvotes = project.upvotes || 0;
   const github_link = project.github_link || '#';
+  const savedUser = localStorage.getItem('user');
+  let canViewGithub = false;
+
+  if (savedUser) {
+    try {
+      const user = JSON.parse(savedUser);
+      canViewGithub = getPurchasedProjectIds(user.id).includes(String(project.id));
+    } catch {
+      canViewGithub = false;
+    }
+  }
 
   return (
     <div className="project-card">
@@ -37,10 +59,16 @@ export default function ProjectCard({ project, onUpvote, showActions }) {
       </div>
 
       <div className="card-link">
-        <a href={github_link} target="_blank" rel="noopener noreferrer" className="github-link">
-          View on GitHub
-          <ExternalLink size={14} />
-        </a>
+        {canViewGithub ? (
+          <a href={github_link} target="_blank" rel="noopener noreferrer" className="github-link">
+            View on GitHub
+            <ExternalLink size={14} />
+          </a>
+        ) : (
+          <span className="github-link" style={{ opacity: 0.75 }}>
+            Buy to unlock GitHub
+          </span>
+        )}
       </div>
       <div className="card-link">
         <a href={project.demo_link} target="_blank" rel="noopener noreferrer" className="github-link">

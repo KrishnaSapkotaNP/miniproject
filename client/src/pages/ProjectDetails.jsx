@@ -5,16 +5,40 @@ import { api } from '../services/api';
 import FolderTree from '../components/FolderTree';
 import '../styles/dashboard.css';
 
+const getPurchasedProjectIds = (userId) => {
+  if (!userId) return [];
+
+  try {
+    const stored = JSON.parse(localStorage.getItem(`purchasedProjects:${userId}`) || '[]');
+    return Array.isArray(stored) ? stored.map(String) : [];
+  } catch {
+    return [];
+  }
+};
+
 export default function ProjectDetails() {
   const { id } = useParams();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
-  const [buy, setBuy] = useState(false);
+  const [isPurchased, setIsPurchased] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     loadProject();
+  }, [id]);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (!savedUser) return;
+
+    try {
+      const user = JSON.parse(savedUser);
+      const purchasedIds = getPurchasedProjectIds(user.id);
+      setIsPurchased(purchasedIds.includes(String(id)));
+    } catch {
+      setIsPurchased(false);
+    }
   }, [id]);
 
   const loadProject = async () => {
@@ -45,6 +69,30 @@ export default function ProjectDetails() {
       setMessage('✓ Upvoted!');
     } catch (err) {
       setMessage('Failed to upvote');
+    }
+  };
+
+  const handleBuyNow = () => {
+    const savedUser = localStorage.getItem('user');
+    if (!savedUser) {
+      setMessage('Please login to continue');
+      return;
+    }
+
+    try {
+      const user = JSON.parse(savedUser);
+      const key = `purchasedProjects:${user.id}`;
+      const purchasedIds = getPurchasedProjectIds(user.id);
+
+      if (!purchasedIds.includes(String(id))) {
+        purchasedIds.push(String(id));
+        localStorage.setItem(key, JSON.stringify(purchasedIds));
+      }
+
+      setIsPurchased(true);
+      setMessage('✓ Purchase unlocked GitHub access');
+    } catch {
+      setMessage('Failed to unlock project');
     }
   };
 
@@ -82,16 +130,22 @@ export default function ProjectDetails() {
           </div>
           <div className="meta-item">
             <strong>GitHub:</strong>
-            <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="github-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
-              View Repository
-              <ExternalLink size={14} />
-            </a>
+            {isPurchased ? (
+              <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="github-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
+                View Repository
+                <ExternalLink size={14} />
+              </a>
+            ) : (
+              <span style={{ display: 'block', marginTop: '4px', opacity: 0.75 }}>
+                Buy to unlock GitHub access
+              </span>
+            )}
           </div> 
           <div className="meta-item">
   <strong>Live Demo:</strong>
 
   <a
-    href={setBuy ? project.demo_link : "#"}
+    href={isPurchased ? project.demo_link : "#"}
     target="_blank"
     rel="noopener noreferrer"
     className="github-link"
@@ -100,8 +154,8 @@ export default function ProjectDetails() {
       alignItems: 'center',
       gap: '4px',
       marginTop: '4px',
-      pointerEvents: setBuy ? 'auto' : 'none',
-      opacity: setBuy ? 1 : 0.5
+      pointerEvents: isPurchased ? 'auto' : 'none',
+      opacity: isPurchased ? 1 : 0.5
     }}
   >
     View Live Demo
@@ -116,9 +170,9 @@ export default function ProjectDetails() {
             <ThumbsUp size={16} />
             Upvote ({upvotes})
           </button>
-          <button className="btn-buy" onClick={() => setBuy(true)}>
+          <button className="btn-buy" onClick={handleBuyNow}>
             <CreditCard size={16} />
-            Buy Now
+            {isPurchased ? 'Purchased' : 'Buy Now'}
           </button >
         </div>
 
