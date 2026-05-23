@@ -75,6 +75,7 @@ export default function ProjectDetails() {
   const handleBuyNow = () => {
     const savedUser = localStorage.getItem('user');
     if (!savedUser) {
+      alert('Please login to purchase this project');
       setMessage('Please login to continue');
       return;
     }
