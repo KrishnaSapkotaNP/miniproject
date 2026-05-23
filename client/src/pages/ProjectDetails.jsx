@@ -22,6 +22,7 @@ export default function ProjectDetails() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [isPurchased, setIsPurchased] = useState(false);
+  const [isPurchasedd, setIsPurchasedd] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -146,7 +147,7 @@ export default function ProjectDetails() {
   <strong>Live Demo:</strong>
 
   <a
-    href={isPurchased ? project.demo_link : "#"}
+    href={isPurchasedd ? project.demo_link : "#"}
     target="_blank"
     rel="noopener noreferrer"
     className="github-link"
@@ -155,8 +156,8 @@ export default function ProjectDetails() {
       alignItems: 'center',
       gap: '4px',
       marginTop: '4px',
-      pointerEvents: isPurchased ? 'auto' : 'none',
-      opacity: isPurchased ? 1 : 0.5
+      pointerEvents: isPurchasedd ? 'auto' : 'none',
+      opacity: isPurchasedd ? 1 : 0.5
     }}
   >
     View Live Demo
