@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import * as userModel from '../models/userModel.js';
 import { ADMIN_CREDENTIALS } from '../config/admin.js';
 
-dotenv.config();
+dotenv.config({ path: new URL('../.env', import.meta.url) });
 
 export const register = async (req, res) => {
   try {

@@ -5,22 +5,70 @@ const getGithubStructure = async (owner, repo) => {
   try {
     const headers = process.env.GITHUB_TOKEN ? { Authorization: `token ${process.env.GITHUB_TOKEN}` } : {};
     const repoName = repo.replace('.git', ''); 
-    const response = await axios.get(`https://api.github.com/repos/${owner}/${repoName}/contents/`, { headers });
-    
-    const buildTree = (items, depth = 0) => {
-      if (depth > 3) return []; 
-      
-      return items
-        .filter(item => !item.name.startsWith('.'))
-        .map(item => ({
-          name: item.name,
-          type: item.type,
-          path: item.path,
-          children: item.type === 'dir' ? [] : undefined
-        }));
-    };
+    const repoResponse = await axios.get(`https://api.github.com/repos/${owner}/${repoName}`, { headers });
+    const defaultBranch = repoResponse.data.default_branch || 'main';
 
-    return buildTree(response.data);
+    const treeResponse = await axios.get(
+      `https://api.github.com/repos/${owner}/${repoName}/git/trees/${defaultBranch}?recursive=1`,
+      { headers }
+    );
+
+    const treeItems = Array.isArray(treeResponse.data.tree) ? treeResponse.data.tree : [];
+    const maxDepth = Number.parseInt(process.env.GITHUB_TREE_DEPTH || '4', 10);
+    const depthLimit = Number.isNaN(maxDepth) || maxDepth < 1 ? 4 : maxDepth;
+
+    const isHiddenPath = (path) => path.split('/').some(part => part.startsWith('.'));
+
+    const root = { name: '', type: 'dir', path: '', children: [] };
+    const nodes = new Map();
+    nodes.set('', root);
+
+    for (const item of treeItems) {
+      if (!item || !item.path || (item.type !== 'tree' && item.type !== 'blob')) {
+        continue;
+      }
+
+      if (isHiddenPath(item.path)) {
+        continue;
+      }
+
+      const parts = item.path.split('/');
+      if (parts.length > depthLimit) {
+        continue;
+      }
+
+      let currentPath = '';
+      let parent = root;
+
+      for (let i = 0; i < parts.length; i += 1) {
+        const part = parts[i];
+        const partPath = currentPath ? `${currentPath}/${part}` : part;
+        const isLeaf = i === parts.length - 1;
+        const nodeType = isLeaf ? (item.type === 'tree' ? 'dir' : 'file') : 'dir';
+
+        if (!nodes.has(partPath)) {
+          const node = {
+            name: part,
+            type: nodeType,
+            path: partPath,
+            children: nodeType === 'dir' ? [] : undefined
+          };
+          nodes.set(partPath, node);
+          parent.children.push(node);
+        } else if (isLeaf) {
+          const node = nodes.get(partPath);
+          node.type = nodeType;
+          if (nodeType === 'dir' && !node.children) {
+            node.children = [];
+          }
+        }
+
+        parent = nodes.get(partPath);
+        currentPath = partPath;
+      }
+    }
+
+    return root.children;
   } catch (err) {
     console.error('Error fetching GitHub structure:', err.response?.status, err.message);
     return []; 

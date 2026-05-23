@@ -6,7 +6,7 @@ import authRoutes from './routes/authRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
 import creatorRoutes from './routes/creatorRoutes.js';
 
-dotenv.config();
+dotenv.config({ path: new URL('./.env', import.meta.url) });
 
 const app = express();
 const PORT = process.env.PORT || 5000;

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ path: new URL('../.env', import.meta.url) });
 
 export const authenticate = (req, res, next) => {
 

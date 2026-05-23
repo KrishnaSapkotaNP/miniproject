@@ -4,9 +4,11 @@ const initializeDB = async () => {
   try {
     await pool.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto"');
 
+    await pool.query('ALTER TABLE IF EXISTS users DROP CONSTRAINT IF EXISTS users_id_fkey');
+
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
-        id UUID PRIMARY KEY,
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name TEXT,
         email TEXT UNIQUE,
         password VARCHAR(255),
@@ -43,6 +45,7 @@ const initializeDB = async () => {
 
     await pool.query('ALTER TABLE projects ADD COLUMN IF NOT EXISTS demo_link TEXT');
     await pool.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS password VARCHAR(255)');
+    await pool.query('ALTER TABLE users ALTER COLUMN id SET DEFAULT gen_random_uuid()');
 
     console.log('Database initialized successfully for Supabase-compatible schema');
   } catch (err) {
