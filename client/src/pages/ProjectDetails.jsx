@@ -20,6 +20,11 @@ export default function ProjectDetails() {
     setLoading(true);
     try {
       const data = await api.getProjectById(id);
+      if (data?.error) {
+        setMessage(data.error);
+        setProject(null);
+        return;
+      }
       setProject(data);
     } catch (err) {
       setMessage('Failed to load project');
@@ -31,6 +36,10 @@ export default function ProjectDetails() {
   const handleUpvote = async () => {
     try {
       const result = await api.upvoteProject(id);
+      if (result.error) {
+        setMessage(result.error);
+        return;
+      }
       setProject(result.project);
       setMessage('✓ Upvoted!');
     } catch (err) {
@@ -39,7 +48,7 @@ export default function ProjectDetails() {
   };
 
   if (loading) return <div className="page-container"><p>Loading project...</p></div>;
-  if (!project) return <div className="page-container"><p>Project not found</p></div>;
+  if (!project) return <div className="page-container"><p>{message || 'Project not found'}</p></div>;
 
   const priceNum = parseFloat(project.price);
   const price = isNaN(priceNum) ? 0 : priceNum;

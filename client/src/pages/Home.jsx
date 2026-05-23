@@ -30,7 +30,7 @@ export default function Home() {
     try {
       const result = await api.upvoteProject(id);
       if (result.error) {
-        setMessage(`Error: ${result.error}`);
+        setMessage(result.error);
       } else {
         setProjects(projects.map(p => p.id === id ? { ...p, upvotes: (p.upvotes || 0) + 1 } : p));
       }
@@ -38,6 +38,14 @@ export default function Home() {
       console.error('Upvote error:', err);
       setMessage('Failed to upvote');
     }
+  };
+
+  const handleCardClick = (projectId) => {
+    if (!projectId) {
+      setMessage('Project not found');
+      return;
+    }
+    window.location.href = `/project/${projectId}`;
   };
 
   if (loading) return <div className="page-container"><p>Loading projects...</p></div>;
@@ -64,7 +72,7 @@ export default function Home() {
           <p className="no-projects">No projects available yet</p>
         ) : (
           projects.map(project => (
-            <div key={project.id} onClick={() => window.location.href = `/project/${project.id}`} style={{ cursor: 'pointer' }} className="project-card-container">
+            <div key={project.id} onClick={() => handleCardClick(project.id)} style={{ cursor: 'pointer' }} className="project-card-container">
               <ProjectCard project={project} onUpvote={handleUpvote} showActions={true} />
             </div>
           ))
