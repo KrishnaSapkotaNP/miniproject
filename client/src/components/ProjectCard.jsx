@@ -42,6 +42,12 @@ export default function ProjectCard({ project, onUpvote, showActions }) {
           <ExternalLink size={14} />
         </a>
       </div>
+      <div className="card-link">
+        <a href={project.demo_link} target="_blank" rel="noopener noreferrer" className="github-link">
+          View live Demo
+          <ExternalLink size={14} />
+        </a>
+      </div>
 
       {showActions && (
         <div className="card-actions">
